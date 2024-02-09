@@ -10,6 +10,9 @@ public class PlayerController : MonoBehaviour
     public Rigidbody rb;
     float horizontalInput;
 
+    [SerializeField] private float JumbForce = 350;
+    [SerializeField] private LayerMask GroundMask;
+
 
     private void Awake()
     {
@@ -30,15 +33,23 @@ public class PlayerController : MonoBehaviour
             rb.MovePosition(rb.position + forwardMovement + horizontalMovement);
         }
     }
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
     // Update is called once per frame
     void Update()
     {
         horizontalInput = Input.GetAxis("Horizontal");
+
+        float playerHeight = GetComponent<Collider>().bounds.size.y;
+        bool IsGrounded = Physics.Raycast(transform.position, Vector3.down, (playerHeight / 2) + 0.1f, GroundMask);
+
+        if (Input.GetKeyDown(KeyCode.Space) && isAlive && IsGrounded == true) 
+        {
+            Jump();
+        }
+    }
+
+    public void Jump()
+    {
+        rb.AddForce (Vector3.up * JumbForce);
     }
 }
