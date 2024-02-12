@@ -16,11 +16,13 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
+        // Récupère le composant Rigidbody attaché à cet objet pour pouvoir manipuler sa physique.
         rb = GetComponent<Rigidbody>();
     }
 
     private void FixedUpdate()
     {
+        // Vérifie si le personnage est en vie avant de procéder à tout mouvement.
         if (isAlive)
         {
             // Calcule le vecteur de mouvement vers l'avant.
@@ -29,7 +31,7 @@ public class PlayerController : MonoBehaviour
             // Calcule le vecteur de mouvement horizontal.
             Vector3 horizontalMovement = transform.right * horizontalInput * horizontalSpeed * Time.fixedDeltaTime;
 
-            // Combine les vecteurs de mouvement en les additionnant, puis ajoute le résultat à la position actuelle du Rigidbody pour obtenir la nouvelle position.
+            // Déplace le Rigidbody à sa nouvelle position, en ajoutant les mouvements avant et horizontal à sa position actuelle.
             rb.MovePosition(rb.position + forwardMovement + horizontalMovement);
         }
     }
@@ -37,11 +39,17 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // Récupère la valeur d'entrée horizontale (gauche/droite) de l'utilisateur.
         horizontalInput = Input.GetAxis("Horizontal");
 
+        // Calcule la hauteur du joueur en récupérant la taille de son Collider.
         float playerHeight = GetComponent<Collider>().bounds.size.y;
+
+        // Vérifie si le joueur est au sol en lançant un rayon vers le bas à partir de sa position.
+        // La longueur du rayon est légèrement plus grande que la moitié de la hauteur du joueur pour s'assurer qu'il touche le sol.
         bool IsGrounded = Physics.Raycast(transform.position, Vector3.down, (playerHeight / 2) + 0.1f, GroundMask);
 
+        // Si l'utilisateur appuie sur la touche Espace, que le joueur est en vie et au sol, alors le joueur saute.
         if (Input.GetKeyDown(KeyCode.Space) && isAlive && IsGrounded == true) 
         {
             Jump();
@@ -50,6 +58,7 @@ public class PlayerController : MonoBehaviour
 
     public void Jump()
     {
+        // Ajoute une force vers le haut au Rigidbody, ce qui crée l'effet de saut.
         rb.AddForce (Vector3.up * JumbForce);
     }
 }
