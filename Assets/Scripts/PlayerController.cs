@@ -13,6 +13,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float JumbForce = 350;
     [SerializeField] private LayerMask GroundMask;
 
+    public float speedIncrease;
+
 
     private void Awake()
     {
@@ -58,6 +60,7 @@ public class PlayerController : MonoBehaviour
 
     public void Jump()
     {
+        SoundManager.PlaySound("Jump");
         // Ajoute une force vers le haut au Rigidbody, ce qui crée l'effet de saut.
         rb.AddForce (Vector3.up * JumbForce);
     }
@@ -67,6 +70,13 @@ public class PlayerController : MonoBehaviour
         if(collision.gameObject.name == "Graphic")
         {
             Dead();
+        }
+        if (collision.gameObject.name == "Coin(Clone)")
+        {
+           SoundManager.PlaySound("Coin");
+           Destroy(collision.gameObject);
+           GameManager.MyInstance.Score++;
+           runSpeed += speedIncrease;
         }
     }
 
