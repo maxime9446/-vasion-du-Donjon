@@ -61,4 +61,18 @@ public class PlayerController : MonoBehaviour
         // Ajoute une force vers le haut au Rigidbody, ce qui crée l'effet de saut.
         rb.AddForce (Vector3.up * JumbForce);
     }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if(collision.gameObject.name == "Graphic")
+        {
+            Dead();
+        }
+    }
+
+    public void Dead()
+    {
+        isAlive = false;
+        GameManager.MyInstance.GameoverPanel.SetActive(true);
+    }
 }
