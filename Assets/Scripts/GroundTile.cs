@@ -16,7 +16,7 @@ public class GroundTile : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        SpawnObs();
     }
 
     private void OnTriggerExit(Collider other)
@@ -29,5 +29,13 @@ public class GroundTile : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public void SpawnObs()
+    {
+        int ChooseSpawnPoint = Random.Range(0, spawnpoints.Length);
+        int SpawnPrefab = Random.Range(0, obstaclePrefabs.Length);
+
+        Instantiate(obstaclePrefabs[SpawnPrefab], spawnpoints[ChooseSpawnPoint].transform.position, Quaternion.identity, transform);
     }
 }

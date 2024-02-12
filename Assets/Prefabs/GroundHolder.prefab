@@ -62,7 +62,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 51936f86847b9674cb654c7e139f2cd1, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -293,8 +293,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db38e8d984f2ad3468eb146e95cb9926, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  obstaclePrefabs: []
-  spawnpoints: []
+  obstaclePrefabs:
+  - {fileID: 6317251183132385403, guid: 9189cc757ad03214a9114f2ae9488b7b, type: 3}
+  - {fileID: 3301194638662440617, guid: 4798d853cf179ef45bdb5cf12c52f067, type: 3}
+  spawnpoints:
+  - {fileID: 3766438297765646010}
+  - {fileID: 2185608506549716120}
+  - {fileID: 5259504054145837330}
 --- !u!1 &5692796802091600837
 GameObject:
   m_ObjectHideFlags: 0
