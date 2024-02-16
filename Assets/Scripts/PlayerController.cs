@@ -62,6 +62,9 @@ public class PlayerController : MonoBehaviour
                     playerAnim.SetTrigger("jump");
                     Jump();
                     
+                }else if (Input.GetKeyDown(KeyCode.DownArrow))
+                {
+                    playerAnim.SetTrigger("crouch");
                 }
                 else
                 {
