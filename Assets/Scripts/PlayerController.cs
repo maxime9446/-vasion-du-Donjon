@@ -53,9 +53,12 @@ public class PlayerController : MonoBehaviour
             }
 
             // Sauter uniquement si le joueur est au sol
-            if (IsGrounded && Input.GetKeyDown(KeyCode.Space))
+            if (IsGrounded)
             {
-                Jump();
+                if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.UpArrow))
+                {
+                    Jump();
+                }
             }
 
 
