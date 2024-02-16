@@ -10,6 +10,8 @@ public class PlayerController : MonoBehaviour
     public Rigidbody rb;
     float horizontalInput;
 
+    public Animator playerAnim;
+
     [SerializeField] private float JumbForce = 350;
     [SerializeField] private LayerMask GroundMask;
 
@@ -57,14 +59,20 @@ public class PlayerController : MonoBehaviour
             {
                 if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.UpArrow))
                 {
+                    playerAnim.SetTrigger("jump");
                     Jump();
+                    
+                }
+                else
+                {
+                  playerAnim.SetTrigger("sprint");
                 }
             }
 
 
 
             Vector3 targetPosition = new Vector3(lanePositions[laneIndex], rb.position.y, rb.position.z);
-            rb.position = Vector3.MoveTowards(rb.position, targetPosition, Time.deltaTime * 25f); // Déplace le joueur vers la voie cible
+            rb.position = Vector3.MoveTowards(rb.position, targetPosition, Time.deltaTime * 25f);// Déplace le joueur vers la voie cible
         }
     }
 
@@ -85,7 +93,8 @@ public class PlayerController : MonoBehaviour
     {
         if(collision.gameObject.name == "Graphic")
         {
-            Dead();
+            playerAnim.SetTrigger("die");
+            StartCoroutine(DieSequence());
         }
         if (collision.gameObject.name == "Coin(Clone)")
         {
@@ -94,6 +103,13 @@ public class PlayerController : MonoBehaviour
            GameManager.MyInstance.Score++;
            runSpeed += speedIncrease;
         }
+    }
+
+    IEnumerator DieSequence()
+    {
+        yield return new WaitForSeconds(0.8f); 
+
+        Dead();
     }
 
     public void Dead()
