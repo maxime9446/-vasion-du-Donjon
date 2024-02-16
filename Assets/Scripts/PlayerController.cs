@@ -15,6 +15,9 @@ public class PlayerController : MonoBehaviour
 
     public float speedIncrease;
 
+    private int laneIndex = 1; // 0 = gauche, 1 = milieu, 2 = droite
+    private float[] lanePositions = new float[] { -3f, 0f, 3f }; // Positions X des trois voies
+
 
     private void Awake()
     {
@@ -27,35 +30,45 @@ public class PlayerController : MonoBehaviour
         // Vérifie si le personnage est en vie avant de procéder à tout mouvement.
         if (isAlive)
         {
-            // Calcule le vecteur de mouvement vers l'avant.
             Vector3 forwardMovement = transform.forward * runSpeed * Time.fixedDeltaTime;
-
-            // Calcule le vecteur de mouvement horizontal.
-            Vector3 horizontalMovement = transform.right * horizontalInput * horizontalSpeed * Time.fixedDeltaTime;
-
-            // Déplace le Rigidbody à sa nouvelle position, en ajoutant les mouvements avant et horizontal à sa position actuelle.
-            rb.MovePosition(rb.position + forwardMovement + horizontalMovement);
+            rb.MovePosition(rb.position + forwardMovement);
         }
     }
 
     // Update is called once per frame
     void Update()
     {
-        // Récupère la valeur d'entrée horizontale (gauche/droite) de l'utilisateur.
-        horizontalInput = Input.GetAxis("Horizontal");
-
-        // Calcule la hauteur du joueur en récupérant la taille de son Collider.
         float playerHeight = GetComponent<Collider>().bounds.size.y;
-
-        // Vérifie si le joueur est au sol en lançant un rayon vers le bas à partir de sa position.
-        // La longueur du rayon est légèrement plus grande que la moitié de la hauteur du joueur pour s'assurer qu'il touche le sol.
         bool IsGrounded = Physics.Raycast(transform.position, Vector3.down, (playerHeight / 2) + 0.1f, GroundMask);
-
-        // Si l'utilisateur appuie sur la touche Espace, que le joueur est en vie et au sol, alors le joueur saute.
-        if (Input.GetKeyDown(KeyCode.Space) && isAlive && IsGrounded == true) 
+        if (isAlive)
         {
-            Jump();
+            // Permettre le déplacement à gauche et à droite indépendamment de la condition IsGrounded
+            if (Input.GetKeyDown(KeyCode.LeftArrow))
+            {
+                MoveLane(false);
+            }
+            if (Input.GetKeyDown(KeyCode.RightArrow))
+            {
+                MoveLane(true);
+            }
+
+            // Sauter uniquement si le joueur est au sol
+            if (IsGrounded && Input.GetKeyDown(KeyCode.Space))
+            {
+                Jump();
+            }
+
+
+
+            Vector3 targetPosition = new Vector3(lanePositions[laneIndex], rb.position.y, rb.position.z);
+            rb.position = Vector3.MoveTowards(rb.position, targetPosition, Time.deltaTime * 25f); // Déplace le joueur vers la voie cible
         }
+    }
+
+    void MoveLane(bool goingRight)
+    {
+        laneIndex += (goingRight ? 1 : -1);
+        laneIndex = Mathf.Clamp(laneIndex, 0, lanePositions.Length - 1); // Garde l'index de la voie dans les limites
     }
 
     public void Jump()
