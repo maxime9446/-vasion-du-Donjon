@@ -19,7 +19,7 @@ public class GroundSpawner : MonoBehaviour
     void Start()
     {
         // Exécute une boucle pour générer 10 tuiles de sol à l'initialisation du jeu.
-        for (int i = 0; i < 10; i++)
+        for (int i = 0; i < 20; i++)
         {
             spawnTile();
         }
