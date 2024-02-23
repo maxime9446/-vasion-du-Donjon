@@ -17,6 +17,8 @@ public class GameManager : MonoBehaviour
 
     public GameObject GameoverPanel;
     public GameObject StartGamePanel;
+
+    public bool isStarting = false;
     private void Awake()
     {
         MyInstance = this;
@@ -46,6 +48,7 @@ public class GameManager : MonoBehaviour
     {
         StartGamePanel.SetActive(false);
         Time.timeScale = 1;
+        isStarting = true;
     }
 
     public void ResetLevel()

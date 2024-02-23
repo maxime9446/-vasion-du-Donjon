@@ -301,6 +301,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coinPrefab: {fileID: 1171045457017356661, guid: c85800ffe7d67a14d9a21275f7f6c1e5, type: 3}
+  chestPrefab: {fileID: 1818333984835001983, guid: 388dce2621f8ca44486d4f504b765fa6, type: 3}
   obstaclePrefabs:
   - {fileID: 6317251183132385403, guid: 9189cc757ad03214a9114f2ae9488b7b, type: 3}
   - {fileID: 3301194638662440617, guid: 4798d853cf179ef45bdb5cf12c52f067, type: 3}

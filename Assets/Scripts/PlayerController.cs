@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -87,9 +88,13 @@ public class PlayerController : MonoBehaviour
 
     public void Jump()
     {
-        SoundManager.PlaySound("Jump");
-        // Ajoute une force vers le haut au Rigidbody, ce qui crée l'effet de saut.
-        rb.AddForce (Vector3.up * JumbForce);
+   
+        if (GameManager.MyInstance.isStarting)
+        {
+            SoundManager.PlaySound("Jump");
+            // Ajoute une force vers le haut au Rigidbody, ce qui crée l'effet de saut.
+            rb.AddForce(Vector3.up * JumbForce);
+        }
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -106,6 +111,12 @@ public class PlayerController : MonoBehaviour
            GameManager.MyInstance.Score++;
            runSpeed += speedIncrease;
         }
+        if (collision.gameObject.name == "chest(Clone)")
+        {
+            SoundManager.PlaySound("Slow");
+            Destroy(collision.gameObject);
+            runSpeed -= speedIncrease;
+        }
     }
 
     IEnumerator DieSequence()
@@ -119,5 +130,6 @@ public class PlayerController : MonoBehaviour
     {
         isAlive = false;
         GameManager.MyInstance.GameoverPanel.SetActive(true);
+        GameManager.MyInstance.isStarting = false;
     }
 }

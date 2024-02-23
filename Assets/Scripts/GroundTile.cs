@@ -7,6 +7,7 @@ public class GroundTile : MonoBehaviour
     private GroundSpawner groundspawner;
 
     public GameObject coinPrefab;
+    public GameObject chestPrefab;
     public GameObject[] obstaclePrefabs;
     public Transform[] spawnpoints;
 
@@ -19,6 +20,7 @@ public class GroundTile : MonoBehaviour
     {
         SpawnObs();
         SpawnCoin();
+        SpawnChest();
     }
 
     private void OnTriggerExit(Collider other)
@@ -51,6 +53,27 @@ public class GroundTile : MonoBehaviour
         }
     }
 
+    public void SpawnChest()
+    {
+        int pourcentageSpawn = Random.Range(0, 100);
+        if (pourcentageSpawn > 90)
+        {
+            GameObject tempChest = Instantiate(chestPrefab);
+            tempChest.transform.position = SpawnRandomChestPoint(GetComponent<Collider>());
+        }
+    }
+
+    Vector3 SpawnRandomChestPoint(Collider col)
+    {
+        float[] xOptions = new float[] { 3f, 0, -3f };
+        float x = xOptions[Random.Range(0, xOptions.Length)];
+
+        float y = 0;
+
+        float z = Random.Range(col.bounds.min.z, col.bounds.max.z);
+
+        return new Vector3(x, y, z);
+    }
     Vector3 SpawnRandomPoint(Collider col)
     {
         float[] xOptions = new float[] { 3f, 0, -3f };

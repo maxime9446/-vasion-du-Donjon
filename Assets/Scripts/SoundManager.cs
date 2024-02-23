@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class SoundManager : MonoBehaviour
 {
-    public AudioClip Coin, Jump;
+    public AudioClip Coin, Jump, Slow;
 
-    public static AudioClip JumpSound, CoinSound;
+    public static AudioClip JumpSound, CoinSound, SlowSound;
     static AudioSource audioSrc;
     // Start is called before the first frame update
     void Start()
@@ -14,6 +14,7 @@ public class SoundManager : MonoBehaviour
         audioSrc = GetComponent<AudioSource>();
         JumpSound = Jump;
         CoinSound = Coin;
+        SlowSound = Slow;
     }
 
     public static void PlaySound(string soundClip)
@@ -25,6 +26,9 @@ public class SoundManager : MonoBehaviour
                 break;
             case "Jump":
                 audioSrc.PlayOneShot(JumpSound);
+                break;
+            case "Slow":
+                audioSrc.PlayOneShot(SlowSound);
                 break;
         }
     }
