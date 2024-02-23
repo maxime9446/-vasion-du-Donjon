@@ -23,7 +23,7 @@ public class GroundTile : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        groundspawner.spawnTile();
+       groundspawner.spawnTile();
 
         Destroy(gameObject, 5f);
     }
