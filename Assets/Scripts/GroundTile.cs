@@ -53,9 +53,13 @@ public class GroundTile : MonoBehaviour
 
     Vector3 SpawnRandomPoint(Collider col)
     {
-        Vector3 point = new Vector3(Random.Range(col.bounds.min.x, col.bounds.max.x), Random.Range(col.bounds.min.y, col.bounds.max.y), Random.Range(col.bounds.min.z, col.bounds.max.z));
+        float[] xOptions = new float[] { 3f, 0, -3f };
+        float x = xOptions[Random.Range(0, xOptions.Length)];
 
-        point.y = 1;
-        return point;
+        float y = 1;
+
+        float z = Random.Range(col.bounds.min.z, col.bounds.max.z);
+
+        return new Vector3(x, y, z);
     }
 }
